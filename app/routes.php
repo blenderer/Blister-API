@@ -40,8 +40,9 @@ Route::get('/', function()
 
 Route::resource('account', 'UserController');
 Route::resource('list', 'ListController');
+Route::resource('listitem', 'ListItemController');
 
-if (Auth::check())
+if (Auth::check()) //lets automatically log out the user
 {
 	Auth::logout();
 }
