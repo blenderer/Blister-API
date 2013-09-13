@@ -11,6 +11,26 @@ class ListTableSeeder extends Seeder {
             'name' => 'Shopping List',
             'public' => false
         ));
+            ListItem::create(array(
+                'list_id' => 1,
+                'item_text' => 'Milk',
+                'order' => '0'
+            ));
+            ListItem::create(array(
+                'list_id' => 1,
+                'item_text' => 'Eggs',
+                'order' => '1'
+            ));
+            ListItem::create(array(
+                'list_id' => 1,
+                'item_text' => 'Bread',
+                'order' => '2'
+            ));
+            ListItem::create(array(
+                'list_id' => 1,
+                'item_text' => 'Meat',
+                'order' => '3'
+            ));
         
         Lizt::create(array(
             'user_id' => 1,

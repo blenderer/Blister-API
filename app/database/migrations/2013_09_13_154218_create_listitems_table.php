@@ -17,7 +17,8 @@ class CreateListitemsTable extends Migration {
 			$table->increments('id');
 			$table->integer('list_id');
 			$table->text('item_text');
-			$table->boolean('checked');
+			$table->integer('order');
+			$table->boolean('checked')->default(0);
 			$table->timestamps();
 		});
 	}
