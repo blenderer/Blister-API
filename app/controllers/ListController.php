@@ -3,7 +3,7 @@
 class ListController extends \BaseController {
 
 	function __construct() {
-        $this->beforeFilter('auth.basic', array('only' => array('destroy', 'show', 'store', 'update')));
+        $this->beforeFilter('auth.basic', array('only' => array('destroy', 'show', 'store', 'update', 'index')));
     }
 
 	/**
@@ -32,7 +32,7 @@ class ListController extends \BaseController {
 				array
 				(
 					"status" => "success", 
-					"data" => array("list" => $list->getListData())
+					"data" => array("list" => $list->getListData(array("name" => 1, "id" => 1, "item_count" => 1, "public" => 0, "username" => 1)))
 				)
 			);
 		}
@@ -44,7 +44,7 @@ class ListController extends \BaseController {
 					array
 					(
 						"status" => "success", 
-						"data" => array("list" => $list->getListData())
+						"data" => array("list" => $list->getListData(array("name" => 1, "id" => 1, "item_count" => 1, "public" => 0, "username" => 0)))
 					)
 				);
 			}
@@ -108,7 +108,49 @@ class ListController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$list = Lizt::findOrFail($id);
+
+		if ($list->user == Auth::user())
+		{
+			$list->name = Input::get('name');
+			$list->public = Input::get('public');
+			$list->user_id = Auth::user()->id;
+			
+			$status = $list->validate();
+
+			if (!$status) 
+			{
+				return Response::json(
+					array
+					(
+						"status" => "error", 
+						"data" => $list->getErrors()
+					)
+				, 409);
+			}
+			else 
+			{
+				$list->save();
+
+				return Response::json(
+					array
+					(
+						"status" => "success", 
+						"data" => "List has been updated!"
+					)
+				, 201);
+			}
+		}
+		else
+		{
+			return Response::json(
+				array
+				(
+					"status" => "error", 
+					"data" => "Cannot update that user's list, it's not yours."
+				)
+			, 401);
+		}
 	}
 
 	/**

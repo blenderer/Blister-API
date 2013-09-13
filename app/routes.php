@@ -13,14 +13,20 @@
 
 Route::get('/', function()
 {
-	//get most recent public lists
-	$public_lists = Lizt::shared()->orderBy('updated_at', 'desc')->take(10)->get();
+	$page = 1;
+	//get most recent public lists (non-functional till I make a decision)
+	//I will make $page a url parameter instead of a route
+	if ($page == "")
+		$page = 1;
+
+	$page = $page - 1;
+	$public_lists = Lizt::shared()->orderBy('updated_at', 'desc')->skip($page * 10)->take(10)->get();
 
 	$human_data = array();
 
 	foreach ($public_lists as $list)
 	{
-		array_push($human_data, $list->getListInfo());
+		array_push($human_data, $list->getListData(array("name" => 1, "id" => 1, "item_count" => 1, "public" => 0, "username" => 1)));
 	}
 
 	return Response::json(

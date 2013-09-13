@@ -3,7 +3,7 @@
 class UserController extends \BaseController {
 
 	function __construct() {
-        $this->beforeFilter('auth.basic', array('only' => array('index', 'destroy')));
+        $this->beforeFilter('auth.basic', array('only' => array('index', 'destroy', 'show')));
     }
 
 	/**
@@ -20,6 +20,28 @@ class UserController extends \BaseController {
 				"data" => array("user" => Auth::user()->toArray())
 			)
 		);
+	}
+
+	public function show($page)
+	{
+		$user = Auth::user();
+
+		$lists = Lizt::mostRecent($user, $page);
+
+		$list_array = array();
+
+		foreach ($lists as $list)
+		{
+			array_push($list_array, $list->getListData(array("name" => 1, "id" => 1, "item_count" => 1, "public" => 1, "username" => 0)));
+		}
+
+		return Response::json(
+				array
+				(
+					"status" => "success", 
+					"lists" => $list_array
+				)
+			, 409);
 	}
 
 	/**

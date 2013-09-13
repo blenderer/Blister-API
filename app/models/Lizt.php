@@ -57,6 +57,38 @@ class Lizt extends Eloquent {
 
 	}
 
+	public function getListData($key_array)
+	{
+		$return_array = array();
+
+		if ($key_array["name"])
+		{
+			$return_array["name"] = $this->name;
+		}
+
+		if ($key_array["id"])
+		{
+			$return_array["id"] = $this->id;
+		}
+
+		if ($key_array["username"])
+		{
+			$return_array["username"] = $this->user->username;
+		}
+
+		if ($key_array["item_count"])
+		{
+			$return_array["item_count"] = 999;
+		}
+
+		if ($key_array["public"])
+		{
+			$return_array["public"] = $this->public;
+		}
+
+		return (object)$return_array;
+	}
+
     public function getListInfo()
 	{
 		return (object)array(
@@ -67,7 +99,7 @@ class Lizt extends Eloquent {
 				);
 	}
 
-	public function getListData()
+	/*public function getListData()
 	{
 		return (object)array(
 				"name" => $this->name,
@@ -76,10 +108,17 @@ class Lizt extends Eloquent {
 				"public" => $this->public,
 				"items" => 999
 				);
-	}
+	}*/
 
     public function user()
     {
     	return $this->belongsTo('User');
+    }
+
+    public static function mostRecent($user, $page = 1)
+    {
+    	$page = $page - 1;
+
+    	return Lizt::where('user_id', '=', $user->id)->skip($page * 10)->take(10)->get();
     }
 }
