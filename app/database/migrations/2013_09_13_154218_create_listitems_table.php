@@ -12,10 +12,10 @@ class CreateListitemsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('listitems', function(Blueprint $table)
+		Schema::create('liztitems', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('list_id');
+			$table->integer('lizt_id');
 			$table->text('item_text');
 			$table->integer('order');
 			$table->boolean('checked')->default(0);
@@ -30,7 +30,7 @@ class CreateListitemsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('listitems');
+		Schema::drop('liztitems');
 	}
 
 }

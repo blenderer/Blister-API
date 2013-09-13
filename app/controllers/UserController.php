@@ -32,7 +32,7 @@ class UserController extends \BaseController {
 
 		foreach ($lists as $list)
 		{
-			array_push($list_array, $list->getListData(array("name" => 1, "id" => 1, "item_count" => 1, "public" => 1, "username" => 0)));
+			array_push($list_array, $list->toArray());
 		}
 
 		return Response::json(

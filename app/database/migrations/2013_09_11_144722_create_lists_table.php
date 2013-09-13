@@ -12,7 +12,7 @@ class CreateListsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('lists', function(Blueprint $table)
+		Schema::create('lizts', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('user_id');
@@ -29,7 +29,7 @@ class CreateListsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('lists');
+		Schema::drop('lizts');
 	}
 
 }

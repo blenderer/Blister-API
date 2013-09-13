@@ -17,7 +17,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password');
+	protected $hidden = array('password', 'deleted_at');
 
 	/**
 	 * Stores an array of errors if there is a validation error.
@@ -88,5 +88,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 
+	}
+
+	public function lizts()
+	{
+		return $this->hasMany('Lizt');
 	}
 }

@@ -26,7 +26,7 @@ Route::get('/', function()
 
 	foreach ($public_lists as $list)
 	{
-		array_push($human_data, $list->getListData(array("name" => 1, "id" => 1, "item_count" => 1, "public" => 0, "username" => 1)));
+		array_push($human_data, $list->toArray());
 	}
 
 	return Response::json(
@@ -39,8 +39,8 @@ Route::get('/', function()
 });
 
 Route::resource('account', 'UserController');
-Route::resource('list', 'ListController');
-Route::resource('listitem', 'ListItemController');
+Route::resource('list', 'LiztController');
+Route::resource('listitem', 'LiztItemController');
 
 if (Auth::check()) //lets automatically log out the user
 {

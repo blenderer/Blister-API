@@ -10,7 +10,7 @@ class Lizt extends Eloquent {
 	 *
 	 * @var string
 	 */
-	protected $table = 'lists';
+	protected $table = 'lizts';
 
 	/**
 	 * The scope to access public lists.
@@ -38,7 +38,7 @@ class Lizt extends Eloquent {
 	{
 		$checka = Validator::make($this->attributes,
 			array(
-				'name' => 'required|min:2|max:255|unique:lists,name,NULL,id,user_id,' . $this->user->id,
+				'name' => 'required|min:2|max:255|unique:lizts,name,NULL,id,user_id,' . $this->user->id,
 				'public' => 'required|between:0,1'
 			)
 		);
@@ -98,17 +98,6 @@ class Lizt extends Eloquent {
 				"item_count" => 999
 				);
 	}
-
-	/*public function getListData()
-	{
-		return (object)array(
-				"name" => $this->name,
-				"id" => $this->id,
-				"user" => $this->user->username,
-				"public" => $this->public,
-				"items" => 999
-				);
-	}*/
 
     public function user()
     {
