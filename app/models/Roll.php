@@ -104,6 +104,11 @@ class Roll extends Eloquent {
     	return $this->belongsTo('User');
     }
 
+    public function items()
+    {
+    	return $this->hasMany('Item');
+    }
+
     public static function mostRecent($user, $page = 1)
     {
     	$page = $page - 1;

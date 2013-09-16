@@ -13,11 +13,14 @@ class UserController extends \BaseController {
 	 */
 	public function index()
 	{
+		$user = Auth::user();
+		$user->rolls;
+
 		return Response::json(
 			array
 			(
 				"status" => "success", 
-				"data" => array("user" => Auth::user()->toArray())
+				"data" => array("user" => $user->toArray())
 			)
 		);
 	}

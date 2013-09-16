@@ -27,6 +27,7 @@ class RollController extends \BaseController {
 		$list = Roll::findOrFail($identifier);
 
 		$list->user; //call this so it gets displayed
+		$list->items;
 
 		if ($list->public) //if its public, get it.
 		{
