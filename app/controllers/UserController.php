@@ -26,7 +26,7 @@ class UserController extends \BaseController {
 	{
 		$user = Auth::user();
 
-		$lists = Lizt::mostRecent($user, $page);
+		$lists = Roll::mostRecent($user, $page);
 
 		$list_array = array();
 

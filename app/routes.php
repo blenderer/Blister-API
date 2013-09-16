@@ -20,7 +20,7 @@ Route::get('/', function()
 		$page = 1;
 
 	$page = $page - 1;
-	$public_lists = Lizt::shared()->orderBy('updated_at', 'desc')->skip($page * 10)->take(10)->get();
+	$public_lists = Roll::shared()->orderBy('updated_at', 'desc')->skip($page * 10)->take(10)->get();
 
 	$human_data = array();
 
@@ -39,8 +39,8 @@ Route::get('/', function()
 });
 
 Route::resource('account', 'UserController');
-Route::resource('list', 'LiztController');
-Route::resource('listitem', 'LiztItemController');
+Route::resource('list', 'RollController');
+Route::resource('listitem', 'ItemController');
 
 if (Auth::check()) //lets automatically log out the user
 {
