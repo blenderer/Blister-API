@@ -14,7 +14,6 @@ class Item extends Eloquent {
 
 	protected $hidden = array('roll');
 
-
 	public function roll()
     {
     	return $this->belongsTo('Roll');

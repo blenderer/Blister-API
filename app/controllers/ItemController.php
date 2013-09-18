@@ -57,24 +57,45 @@ class ItemController extends \BaseController {
 	{
 		//Need- roll_id, item_text, 
 
-		$item = new Item();
-
-		$item->roll_id = Input::get("roll_id");
-		$item->item_text = Input::get("item_text");
-
-		if (Auth::user()->id == $item->roll_id)
+		if (Input::has('roll_id', 'item_text'))
 		{
-			
+			$item = new Item();
+
+			$item->roll_id = Input::get("roll_id");
+			$item->item_text = Input::get("item_text");
+
+			if (Auth::user()->id == $item->roll_id)
+			{
+				$item->order = $item->roll->topOrder() + 1;
+				$item->save();
+				return Response::json(
+					array
+					(
+						"status" => "success", 
+						"data" => $item->toArray()
+					)
+					);
+			}
+			else
+			{
+				return Response::json(
+					array
+					(
+						"status" => "fail", 
+						"data" => "Attempting to add items a private list."
+					)
+					, 401);
+			}
 		}
 		else
 		{
 			return Response::json(
-				array
-				(
-					"status" => "fail", 
-					"data" => "Attempting to add items a private list."
-				)
-				, 401);
+					array
+					(
+						"status" => "fail", 
+						"data" => "Need to POST roll_id and item_text."
+					)
+					, 401);
 		}
 	}
 
@@ -86,6 +107,9 @@ class ItemController extends \BaseController {
 	 */
 	public function update($id)
 	{
+		
+
+
 
 	}
 
@@ -97,7 +121,19 @@ class ItemController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
+		$item = Item::findOrFail($id);
 
+		if (Auth::user()->id == $item->roll_id)
+		{
+			$item->delete();
+			return Response::json(
+					array
+					(
+						"status" => "success", 
+						"data" => "Item has been deleted."
+					)
+					);
+		}
 	}
 
 }

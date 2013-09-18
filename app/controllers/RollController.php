@@ -115,11 +115,45 @@ class RollController extends \BaseController {
 
 		if ($list->user == Auth::user())
 		{
-			$list->name = Input::get('name');
-			$list->public = Input::get('public');
-			$list->user_id = Auth::user()->id;
+			$input = Input::only('name', 'public', 'order');
+
+			//seperate order from the input (we do this seperately)
+			$order = $input['order'];
+			unset($input['order']);
+
+			//update the roll's properties
+			foreach ($input as $key=>$value)
+			{
+				$list->$key = Input::get($key);
+			}
 			
-			$status = $list->validate();
+			$status = true;
+
+			if ($order)
+			{
+				$order = explode(",", $order);
+
+				$temp_items = array();
+
+				$x = 0;
+				foreach ($order as $order_part)
+				{
+					$temp_item = $list->items()->where('order', '=', $order_part)->first();
+					$temp_item->order = $x;
+
+
+					array_push($temp_items, $temp_item);
+					$x++;
+				}
+				foreach ($temp_items as $item)
+				{
+					$item->save();
+				}
+
+				//so we can show the user the list items after
+				$list->items;
+				
+			}
 
 			if (!$status) 
 			{
@@ -139,7 +173,7 @@ class RollController extends \BaseController {
 					array
 					(
 						"status" => "success", 
-						"data" => "List has been updated!"
+						"data" => $list->toArray()
 					)
 				, 201);
 			}

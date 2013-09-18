@@ -34,6 +34,14 @@ class Roll extends Eloquent {
 		return $this->errors;
 	}
 
+	public function topOrder()
+	{
+		return DB::table('items')
+			->where('roll_id', '=', $this->id)
+			->orderBy('order', 'desc')
+			->first()->order;
+	}
+
     public function validate()
 	{
 		$checka = Validator::make($this->attributes,
@@ -57,48 +65,6 @@ class Roll extends Eloquent {
 
 	}
 
-	public function getListData($key_array)
-	{
-		$return_array = array();
-
-		if ($key_array["name"])
-		{
-			$return_array["name"] = $this->name;
-		}
-
-		if ($key_array["id"])
-		{
-			$return_array["id"] = $this->id;
-		}
-
-		if ($key_array["username"])
-		{
-			$return_array["username"] = $this->user->username;
-		}
-
-		if ($key_array["item_count"])
-		{
-			$return_array["item_count"] = 999;
-		}
-
-		if ($key_array["public"])
-		{
-			$return_array["public"] = $this->public;
-		}
-
-		return (object)$return_array;
-	}
-
-    public function getListInfo()
-	{
-		return (object)array(
-				"name" => $this->name,
-				"id" => $this->id,
-				"user" => $this->user->username,
-				"item_count" => 999
-				);
-	}
-
     public function user()
     {
     	return $this->belongsTo('User');
@@ -106,7 +72,7 @@ class Roll extends Eloquent {
 
     public function items()
     {
-    	return $this->hasMany('Item');
+    	return $this->hasMany('Item')->orderBy('order');
     }
 
     public static function mostRecent($user, $page = 1)
