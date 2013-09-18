@@ -18,4 +18,9 @@ class Item extends Eloquent {
     {
     	return $this->belongsTo('Roll');
     }
+
+    public function items()
+    {
+    	return $this->hasMany('Item');
+    }
 }

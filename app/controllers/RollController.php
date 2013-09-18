@@ -216,6 +216,7 @@ class RollController extends \BaseController {
 
 		if ($list->user == Auth::user())
 		{
+			$list->items()->delete();
 			$list->delete();
 
 			return Response::json(
