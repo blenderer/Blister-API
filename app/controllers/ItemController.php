@@ -55,7 +55,27 @@ class ItemController extends \BaseController {
 	 */
 	public function store()
 	{
+		//Need- roll_id, item_text, 
 
+		$item = new Item();
+
+		$item->roll_id = Input::get("roll_id");
+		$item->item_text = Input::get("item_text");
+
+		if (Auth::user()->id == $item->roll_id)
+		{
+			
+		}
+		else
+		{
+			return Response::json(
+				array
+				(
+					"status" => "fail", 
+					"data" => "Attempting to add items a private list."
+				)
+				, 401);
+		}
 	}
 
 	/**
