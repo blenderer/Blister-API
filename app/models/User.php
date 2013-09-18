@@ -17,7 +17,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password', 'deleted_at');
+	protected $hidden = array('password', 'deleted_at', 'rolls');
 
 	/**
 	 * Stores an array of errors if there is a validation error.
