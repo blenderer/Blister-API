@@ -115,43 +115,58 @@ class RollController extends \BaseController {
 
 		if ($list->user == Auth::user())
 		{
-			$input = Input::only('name', 'public', 'order');
 
-			//seperate order from the input (we do this seperately)
-			$order = $input['order'];
-			unset($input['order']);
-
-			//update the roll's properties
-			foreach ($input as $key=>$value)
+			if ($name = Input::get('name'))
 			{
-				$list->$key = Input::get($key);
+				$list->name = $name;
+			}
+
+			if ($public = Input::get('public'))
+			{
+				$list->public = $public;
 			}
 			
-			$status = true;
+			$status = $list->validate();
 
-			if ($order)
+			if ($order = Input::get('order'))
 			{
+
+
 				$order = explode(",", $order);
 
-				$temp_items = array();
-
-				$x = 0;
-				foreach ($order as $order_part)
+				if (count($order) == $list->itemCount())
 				{
-					$temp_item = $list->items()->where('order', '=', $order_part)->first();
-					$temp_item->order = $x;
+
+					$temp_items = array();
+
+					$x = 0;
+					foreach ($order as $order_part)
+					{
+						$temp_item = $list->items()->where('order', '=', $order_part)->first();
+						$temp_item->order = $x;
 
 
-					array_push($temp_items, $temp_item);
-					$x++;
+						array_push($temp_items, $temp_item);
+						$x++;
+					}
+					foreach ($temp_items as $item)
+					{
+						$item->save();
+					}
+
+					//so we can show the user the list items after
+					$list->items;
 				}
-				foreach ($temp_items as $item)
+				else
 				{
-					$item->save();
-				}
-
-				//so we can show the user the list items after
-				$list->items;
+					return Response::json(
+						array
+						(
+							"status" => "fail", 
+							"data" => "Updated List count does not match saved List."
+						)
+					, 401);
+						}
 				
 			}
 
@@ -173,7 +188,7 @@ class RollController extends \BaseController {
 					array
 					(
 						"status" => "success", 
-						"data" => $list->toArray()
+						"data" => "List has been updated."
 					)
 				, 201);
 			}

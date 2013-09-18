@@ -42,11 +42,16 @@ class Roll extends Eloquent {
 			->first()->order;
 	}
 
+	public function itemCount()
+	{
+		return count($this->items);
+	}
+
     public function validate()
 	{
 		$checka = Validator::make($this->attributes,
 			array(
-				'name' => 'required|min:2|max:255|unique:rolls,name,NULL,id,user_id,' . $this->user->id,
+				'name' => 'required|min:2|max:255|unique:rolls,name,' . $this->id . ',id,user_id,' . $this->user->id,
 				'public' => 'required|between:0,1'
 			)
 		);
