@@ -55,7 +55,7 @@ class ItemController extends \BaseController {
 	 */
 	public function store()
 	{
-		//Need- roll_id, item_text, 
+		//Need- roll_id, item_text
 
 		if (Input::has('roll_id', 'item_text'))
 		{
@@ -107,10 +107,39 @@ class ItemController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		
+		$item = Item::findOrFail($id);
 
+		if ($item->roll->user == Auth::user())
+		{
+			//Need- checked and item_text
+			if ($checked = Input::get('checked'))
+			{
+				if ($checked == 1 || $checked == 0)
+					$item->checked = $checked;
+			}
+			if ($item_text = Input::get('item_text'))
+			{
+				$item->item_text = $item_text;
+			}
 
-
+			$item->save();
+			return Response::json(
+				array
+				(
+					"status" => "success", 
+					"data" => "Item has been updated successfully."
+				)
+				);
+		}
+		else {
+			return Response::json(
+				array
+				(
+					"status" => "fail", 
+					"data" => "Attempting to add items a unauthorized list."
+				)
+				, 401);
+		}
 	}
 
 	/**

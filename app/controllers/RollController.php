@@ -120,7 +120,6 @@ class RollController extends \BaseController {
 			{
 				$list->name = $name;
 			}
-
 			if ($public = Input::get('public'))
 			{
 				$list->public = $public;
