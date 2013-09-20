@@ -3,21 +3,11 @@
 class RollController extends \BaseController {
 
 	function __construct() {
-        $this->beforeFilter('auth.basic', array('only' => array('destroy', 'show', 'store', 'update', 'index')));
+        $this->beforeFilter('auth.basic');
     }
 
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		
-	}
-
-	/**
-	 * Show a resource in storage.
+	 * Show a List and it's list items.
 	 *
 	 * @param id
 	 * @return Response
@@ -65,7 +55,7 @@ class RollController extends \BaseController {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created list in storage. Accepts name/public
 	 *
 	 * @return Response
 	 */
@@ -104,7 +94,9 @@ class RollController extends \BaseController {
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the list specified
+	 * Accepts name/public and list item order like this:
+	 * 4,2,1,3
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -135,26 +127,7 @@ class RollController extends \BaseController {
 
 				if (count($order) == $list->itemCount())
 				{
-
-					$temp_items = array();
-
-					$x = 0;
-					foreach ($order as $order_part)
-					{
-						$temp_item = $list->items()->where('order', '=', $order_part)->first();
-						$temp_item->order = $x;
-
-
-						array_push($temp_items, $temp_item);
-						$x++;
-					}
-					foreach ($temp_items as $item)
-					{
-						$item->save();
-					}
-
-					//so we can show the user the list items after
-					$list->items;
+					$list->changeItemOrder($order);
 				}
 				else
 				{
@@ -182,6 +155,8 @@ class RollController extends \BaseController {
 			else 
 			{
 				$list->save();
+				//so we can show the user the list items after
+				$list->items;
 
 				return Response::json(
 					array
@@ -205,7 +180,7 @@ class RollController extends \BaseController {
 	}
 
 	/**
-	 * Remove the specified resource from storage.
+	 * Remove the specified list from storage.
 	 *
 	 * @param  int  $id
 	 * @return Response

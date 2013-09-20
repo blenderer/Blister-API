@@ -3,11 +3,11 @@
 class UserController extends \BaseController {
 
 	function __construct() {
-        $this->beforeFilter('auth.basic', array('only' => array('index', 'destroy', 'show')));
+        $this->beforeFilter('auth.basic', array('except' => array('store')));
     }
 
 	/**
-	 * Display a listing of the resource.
+	 * Display the account info (Use this for checking if auth works).
 	 *
 	 * @return Response
 	 */
@@ -25,6 +25,11 @@ class UserController extends \BaseController {
 		);
 	}
 
+	/**
+	 * Show the first 10 lists from the user, you can add /2 for second page
+	 *
+	 * @return Response
+	 */
 	public function show($page)
 	{
 		$user = Auth::user();
@@ -48,7 +53,7 @@ class UserController extends \BaseController {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Register a new user with this resource. Accepts username/password
 	 *
 	 * @return Response
 	 */

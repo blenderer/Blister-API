@@ -86,4 +86,27 @@ class Roll extends Eloquent {
 
     	return Roll::where('user_id', '=', $user->id)->skip($page * 10)->take(10)->get();
     }
+
+    public function changeItemOrder($order)
+    {
+
+		$temp_items = array();
+
+		$x = 0;
+		
+		foreach ($order as $order_part)
+		{
+
+			$temp_item = $this->items()->where('order', '=', $order_part)->first();
+
+			$temp_item->order = $x;
+
+			array_push($temp_items, $temp_item);
+			$x++;
+		}
+		foreach ($temp_items as $item)
+		{
+			$item->save();
+		}
+	}
 }

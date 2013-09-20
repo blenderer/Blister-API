@@ -3,7 +3,7 @@
 class ItemController extends \BaseController {
 
 	function __construct() {
-        $this->beforeFilter('auth.basic', array('only' => array('destroy', 'show', 'store', 'update', 'index')));
+        $this->beforeFilter('auth.basic');
     }
 
 	/**
