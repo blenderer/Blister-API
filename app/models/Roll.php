@@ -13,16 +13,21 @@ class Roll extends Eloquent {
 	protected $table = 'rolls';
 
 	/**
+	 * A model is inheritantly error-free, we must validate.
+	 *
+	 * @var boolean
+	 */
+    protected $errors = null;
+
+	/**
 	 * The scope to access public lists.
 	 *
-	 * @return Lizt
+	 * @return Roll
 	 */
 	public function scopeShared($query)
     {
         return $query->where('public', '=', "1");
     }
-
-    protected $errors = null;
 
     /**
 	 * Retrieives any validation errors if any.
@@ -34,6 +39,12 @@ class Roll extends Eloquent {
 		return $this->errors;
 	}
 
+	/**
+	 * Gets the highest order number, so we know what to assign 
+	 * new list items
+	 *
+	 * @return int
+	 */
 	public function topOrder()
 	{
 		return DB::table('items')
@@ -42,11 +53,20 @@ class Roll extends Eloquent {
 			->first()->order;
 	}
 
+	/**
+	 * Gets the count of how many items the list has.
+	 *
+	 * @return int
+	 */
 	public function itemCount()
 	{
 		return count($this->items);
 	}
 
+	/**
+	 * Validates the list and sets the error variable to true or false.
+	 *
+	 */
     public function validate()
 	{
 		$checka = Validator::make($this->attributes,
@@ -70,16 +90,35 @@ class Roll extends Eloquent {
 
 	}
 
+	/**
+	 * Inverse relationship so we can find what user the list belongs to.
+	 *
+	 * @return User
+	 */
     public function user()
     {
     	return $this->belongsTo('User');
     }
 
+    /**
+	 * One to many relationship so we can find the items in a list.
+	 * Ordered  by "order"
+	 * 
+	 * @return Item
+	 */
     public function items()
     {
     	return $this->hasMany('Item')->orderBy('order');
     }
 
+    /**
+	 * Gets the most recent lists from a user
+	 *
+	 * @param $user
+	 * @param $page
+	 *
+	 * @return Roll
+	 */
     public static function mostRecent($user, $page = 1)
     {
     	$page = $page - 1;
@@ -87,13 +126,19 @@ class Roll extends Eloquent {
     	return Roll::where('user_id', '=', $user->id)->skip($page * 10)->take(10)->get();
     }
 
+    /**
+	 * Changes the order of all the items in the list.
+	 *
+	 * @param array $order
+	 *
+	 */
     public function changeItemOrder($order)
     {
 
 		$temp_items = array();
 
 		$x = 0;
-		
+
 		foreach ($order as $order_part)
 		{
 

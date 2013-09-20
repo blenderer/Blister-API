@@ -66,7 +66,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->email;
 	}
 
-
+	/**
+	 * Validates the user registration and sets the error variable 
+	 * to true or false.
+	 *
+	 */
 	public function validate()
 	{
 		$checka = Validator::make($this->attributes,
@@ -90,6 +94,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	}
 
+	/**
+	 * One to many relationship so we can see what rolls belong to the user
+	 *
+	 * @return Roll
+	 */
 	public function rolls()
 	{
 		return $this->hasMany('Roll');

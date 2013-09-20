@@ -32,7 +32,7 @@ class Item extends Eloquent {
     /**
 	 * One to many relation so we can view the items that make up the list.
 	 *
-	 * @return Roll
+	 * @return Item
 	 */
     public function items()
     {
