@@ -15,4 +15,4 @@ You can:
 
 ##License
 
-[Do What The Fuck You Want To Public License](http://www.wtfpl.net/about/)
+[WTFPL](http://www.wtfpl.net/about/)
