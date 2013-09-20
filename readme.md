@@ -10,6 +10,7 @@ You can:
 4. ~~"Cross out" an item.~~
 5. Change the order of items in the list.
 6. Edit the item's text or edit the list's name.
+7. Delete a list or list item.
 
 
 
