@@ -12,6 +12,13 @@ You can:
 6. Edit the item's text or edit the list's name.
 7. Delete a list or list item.
 
+##Usage
+
+###Create an account
+**POST**: {directory}/public/account
+username = {Your chosen username}
+password = {Your chosen password}
+
 
 
 ##License
