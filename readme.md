@@ -1,6 +1,6 @@
 ## Blister API
 
-Blister API is an [RESTful](http://en.wikipedia.org/wiki/Representational_state_transfer) api for making lists. It is simple.
+Blister API is a [RESTful](http://en.wikipedia.org/wiki/Representational_state_transfer) api for making lists. It is simple.
 
 You can:
 
