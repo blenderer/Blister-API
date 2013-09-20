@@ -16,8 +16,9 @@ You can:
 
 ###Create an account
 **POST**: {directory}/public/account
-username = {Your chosen username}
-password = {Your chosen password}
+Arguments:
+username = {Your chosen username} (required)
+password = {Your chosen password} (required)
 
 
 
