@@ -1,4 +1,4 @@
-## Blister API
+# Blister API
 
 Blister API is a [RESTful](http://en.wikipedia.org/wiki/Representational_state_transfer) api for making lists. It is simple.
 
@@ -13,4 +13,4 @@ You can:
 
 
 
-#License
+##License
