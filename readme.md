@@ -7,7 +7,7 @@ You can:
 1. Make an account with username/password.
 2. Create a list (Public or Private).
 3. Create list items.
-4. ~"Cross out" an item.~
+4. ~~"Cross out" an item.~~
 5. Change the order of items in the list.
 6. Edit the item's text or edit the list's name.
 
