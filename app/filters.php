@@ -14,8 +14,8 @@
 App::before(function($request)
 {
 	//
-});
-
+})
+;
 
 App::after(function($request, $response)
 {
@@ -34,15 +34,24 @@ App::after(function($request, $response)
 */
 
 Route::filter('auth', function()
-{
-	if (Auth::guest()) return Redirect::guest('login');
+{	
+	if (!Auth::check())//If we aren't logged in, continue auth
+	{
+		if (Input::has('username') && Input::has('password')) 
+		{
+			if (!Auth::attempt(array('username' => Input::get('username'),
+						'password' => Input::get('password'))))
+			{
+				return "Invalid username or password.";
+			}
+		}
+		else 
+		{
+			return "Username and/or password has not been provided.";
+		}
+	}
 });
 
-
-Route::filter('auth.basic', function()
-{
-	return Auth::basic("username");
-});
 
 /*
 |--------------------------------------------------------------------------

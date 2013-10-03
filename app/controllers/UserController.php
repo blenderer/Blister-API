@@ -3,7 +3,7 @@
 class UserController extends \BaseController {
 
 	function __construct() {
-        $this->beforeFilter('auth.basic', array('except' => array('store')));
+        $this->beforeFilter('auth', array('except' => array('store')));
     }
 
 	/**

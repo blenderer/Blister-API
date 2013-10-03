@@ -42,7 +42,20 @@ Route::resource('account', 'UserController');
 Route::resource('list', 'RollController');
 Route::resource('listitem', 'ItemController');
 
-if (Auth::check()) //lets automatically log out the user
+
+Route::post('login', array('before' => 'auth', function()
 {
-	Auth::logout();
-}
+	return 'successfully logged in!';
+}));
+
+Route::get('logout', function()
+{
+	if (Auth::check())
+	{
+		Auth::logout();
+		return 'logged out!';    
+	}
+	else {
+		return 'You are not logged in';
+	}
+});
