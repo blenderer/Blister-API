@@ -42,12 +42,24 @@ Route::filter('auth', function()
 			if (!Auth::attempt(array('username' => Input::get('username'),
 						'password' => Input::get('password'))))
 			{
-				return "Invalid username or password.";
+				return Response::json(
+					array
+					(
+						"status" => "fail", 
+						"data" => "Invalid Username and/or password"
+					)
+				, 403);
 			}
 		}
 		else 
 		{
-			return "Username and/or password has not been provided.";
+			return Response::json(
+				array
+				(
+					"status" => "fail", 
+					"data" => "Username and/or password has not been provided"
+				)
+			, 401);
 		}
 	}
 });

@@ -11,14 +11,8 @@
 |
 */
 
-Route::get('/', function()
+Route::get('latest/{page?}', function($page = 1)
 {
-	$page = 1;
-	//get most recent public lists (non-functional till I make a decision)
-	//I will make $page a url parameter instead of a route
-	if ($page == "")
-		$page = 1;
-
 	$page = $page - 1;
 	$public_lists = Roll::shared()->orderBy('updated_at', 'desc')->skip($page * 10)->take(10)->get();
 
@@ -26,6 +20,7 @@ Route::get('/', function()
 
 	foreach ($public_lists as $list)
 	{
+		$list->items;
 		array_push($human_data, $list->toArray());
 	}
 
@@ -45,7 +40,13 @@ Route::resource('listitem', 'ItemController');
 
 Route::post('login', array('before' => 'auth', function()
 {
-	return 'successfully logged in!';
+	return Response::json(
+		array
+		(
+			"status" => "success", 
+			"data" => "You have successfully logged in"
+		)
+		);
 }));
 
 Route::get('logout', function()
@@ -53,9 +54,22 @@ Route::get('logout', function()
 	if (Auth::check())
 	{
 		Auth::logout();
-		return 'logged out!';    
+		return Response::json(
+		array
+		(
+			"status" => "success", 
+			"data" => "You have successfully logged out"
+		)
+		); 
 	}
-	else {
-		return 'You are not logged in';
+	else 
+	{
+		return Response::json(
+		array
+		(
+			"status" => "fail", 
+			"data" => "You are not logged in"
+		)
+		);
 	}
 });
