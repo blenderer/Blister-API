@@ -57,7 +57,7 @@ Route::filter('auth', function()
 				array
 				(
 					"status" => "fail", 
-					"data" => "Username and/or password has not been provided"
+					"data" => "Unauthorized"
 				)
 			, 401);
 		}
