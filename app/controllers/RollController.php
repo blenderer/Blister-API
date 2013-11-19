@@ -3,7 +3,7 @@
 class RollController extends \BaseController {
 
 	function __construct() {
-        $this->beforeFilter('auth');
+        $this->beforeFilter('auth', array('except' => 'show'));
     }
 
 	/**
