@@ -33,6 +33,21 @@ Route::get('latest/{page?}', function($page = 1)
 	);
 });
 
+Route::get('user/{username}', function($username)
+{
+	$user = User::where('username', '=', $username)->firstOrFail();
+
+    return Response::json(
+		array
+		(
+			"status" => "success", 
+			"data" => array("public_lists" => $user->rolls()->shared()->get()->toArray())
+		)
+	);
+});
+
+
+
 Route::resource('account', 'UserController');
 Route::resource('list', 'RollController');
 Route::resource('listitem', 'ItemController');
